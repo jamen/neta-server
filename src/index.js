@@ -1,1 +1,9 @@
-export default {};
+/**
+ * Server class
+ */
+
+class Server {
+
+};
+
+export default Server;
