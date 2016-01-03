@@ -4,7 +4,9 @@
   "description": "Neta's official server tool.",
   "main": "out",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "build": "make",
+    "prepublish": "make"
   },
   "repository": {
     "type": "git",
