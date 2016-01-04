@@ -8,7 +8,7 @@ test.cb('Server class', t => {
   const server = new Server();
 
   server.on('message', (message, socket) => {
-    console.log(socket.id, ':', message);
+    server.broadcast(socket.id + ': ' + message + '\n');
   });
 
   server.on('close', () => {
