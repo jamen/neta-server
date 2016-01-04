@@ -1,27 +1,24 @@
 import net from 'net';
 import uuid from 'uuid';
-import { EventEmitter } from 'events';
 
 /**
  * Server class
  */
-class Server extends EventEmitter {
+class Server extends net.Server {
   /**
    * Constructor
-   * @param {Server} server - previously initialized server.
    */
-  constructor(server) {
-    super();
+  constructor() {
+    const _super = super();
+    this._super = _super;
     this.sockets = [];
-    this._server = server || new net.Server();
 
-    this._server.on('connection', socket => {
+    this.on('connection', socket => {
       socket.id = uuid.v1();
       this.sockets.push(socket);
-      this.emit('connection', socket);
 
-      socket.on('data', data => {
-        this.emit('message', data.toString().trim(), socket);
+      socket.on('data', message => {
+        this.emit('message', message.toString().trim(), socket);
       });
     });
   }
@@ -34,13 +31,6 @@ class Server extends EventEmitter {
   broadcast(message) {
     this.sockets(s => s.write(message));
     return this;
-  }
-
-  /**
-   * Listen
-   */
-  listen(...opts) {
-    this._server.listen(...opts);
   }
 }
 
