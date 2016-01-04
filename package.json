@@ -4,7 +4,7 @@
   "description": "Neta's official server tool.",
   "main": "out",
   "scripts": {
-    "test": "ava",
+    "test": "make; ava",
     "build": "make",
     "prepublish": "make"
   },
@@ -30,5 +30,8 @@
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^2.1.1",
     "neta-client": "latest"
+  },
+  "dependencies": {
+    "uuid": "^2.0.1"
   }
 }
