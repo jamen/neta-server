@@ -20,6 +20,12 @@ class Server extends net.Server {
       socket.on('data', message => {
         this.emit('message', message.toString().trim(), socket);
       });
+
+      socket.on('close', () => {
+        this.sockets = this.sockets.filter(s => {
+          return s.id !== socket.id;
+        });
+      });
     });
   }
 
@@ -29,7 +35,7 @@ class Server extends net.Server {
    * @return {Self} Chainability.
    */
   broadcast(message) {
-    this.sockets(s => s.write(message));
+    this.sockets.forEach(s => s.write(message));
     return this;
   }
 }
