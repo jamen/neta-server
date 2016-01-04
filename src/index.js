@@ -9,8 +9,8 @@ class Server extends net.Server {
    * Constructor
    */
   constructor() {
-    const _super = super();
-    this._super = _super;
+    super();
+
     this.sockets = [];
 
     this.on('connection', socket => {
