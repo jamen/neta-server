@@ -1,15 +1,37 @@
-import Server from './server';
-import pack from '../package';
+import net from 'net';
+import uuid from 'uuid';
 
-export default {
-  // Objects
-  Server,
+/**
+ * Server class
+ */
+class Server extends net.Server {
+  /**
+   * Constructor
+   */
+  constructor() {
+    const _super = super();
+    this._super = _super;
+    this.sockets = [];
 
-  // Methods
-  // ...
+    this.on('connection', socket => {
+      socket.id = uuid.v1();
+      this.sockets.push(socket);
 
-  // Meta
-  author: pack.author,
-  license: pack.license,
-  version: pack.version,
-};
+      socket.on('data', message => {
+        this.emit('message', message.toString().trim(), socket);
+      });
+    });
+  }
+
+  /**
+   * Broadcast a message.
+   * @param {(String|Buffer)} message - something to broadcast.
+   * @return {Self} Chainability.
+   */
+  broadcast(message) {
+    this.sockets(s => s.write(message));
+    return this;
+  }
+}
+
+export default Server;
